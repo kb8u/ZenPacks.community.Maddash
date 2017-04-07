@@ -1,0 +1,32 @@
+name: ZenPacks.community.Maddash
+
+classes:
+    MaddashDevice:
+        base: [zenpacklib.Device]
+        label: Maddash Device
+
+    MaddashCell:
+        base: [zenpacklib.Component]
+        label: Maddash Cell
+
+        properties:
+            test_type:
+                label: Test Type
+
+            threshold:
+                label: Threshold
+
+            url:
+                label: Link to the Maddash test
+
+class_relationships:
+  - MaddashDevice 1:MC MaddashCell
+
+device_classes:
+  /Network/MadDash:
+    zProperties:
+      zPythonClass: ZenPacks.community.Maddash.MaddashDevice
+      zPingMonitorIgnore: true
+      zSnmpMonitorIgnore: true
+      zCollectorPlugins:
+        - Maddash.MaddashCell
