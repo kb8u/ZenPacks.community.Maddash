@@ -10,14 +10,20 @@ classes:
         label: Maddash Cell
 
         properties:
-            test_type:
-                label: Test Type
+            grid:
+                label: Grid
 
-            threshold:
-                label: Threshold
+            row:
+                label: Row
+ 
+            column:
+                label: Column
 
-            url:
-                label: Link to the Maddash test
+            check:
+                label: Check
+
+            check_uri:
+                label: Maddash Check URI
 
 class_relationships:
   - MaddashDevice 1:MC MaddashCell

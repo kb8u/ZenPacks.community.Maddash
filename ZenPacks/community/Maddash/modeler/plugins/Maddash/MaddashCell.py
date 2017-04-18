@@ -18,31 +18,57 @@ from pprint import pformat
 
 
 class MaddashCell(PythonPlugin):
-
     relname = 'maddashCell'
     modname = "ZenPacks.community.Maddash.MaddashCell"
 
     def collect(self, device, log):
-        log.info('Starting to collect dashborad data from Maddash API')
-
-        dashboards = ''
-        url = 'http://'+ device.manageIp +'/maddash/dashboards'
-
-        # call JSON API and return result
-        try:
-#            req.add_header('Content-type', 'application/json; charset=utf-8')
-            res = urllib2.urlopen(url)
-            dashboards = res.read()
-            log.debug('API returned: %s' % pformat(dashboards))
-        except:
-            log.error('Error reading: %s' % url) 
-            return(None)
+        log.info('Starting to collect dashboard data from Maddash API')
 
         rm = self.relMap()
 
-        rm.append(self.objectMap({'dashboards':dashboards}))
-
+        dashboards_url = 'http://'+ device.manageIp +'/maddash/dashboards'
+        
+        res = urllib2.urlopen(dashboards_url)
+        dashboards = json.loads(res.read())
+        #log.debug('dashboards: %s\n\n' % pformat(dashboards))
+        for dashboard in dashboards['dashboards']:
+            dashboard_name = dashboard['name']
+            #log.debug('dashboard: %s\n%s\n\n' % (dashboard_name,pformat(dashboard)))
+        
+            for grid in dashboard['grids']:
+                grid_name = grid['name']
+                grid_url = 'http://' + device.manageIp + grid['uri']
+                res = urllib2.urlopen(grid_url)
+                grid_info = json.loads(res.read())
+                #log.debug('\n\ngrid %s:\n%s' % (grid_name,pformat(grid_info))) 
+        
+                check_name = []
+                for cn in grid_info['checkNames']:
+                    check_name.append(cn)
+        
+                row_index = 0
+                for row in grid_info['rows']:
+                    row_name = row['name']
+                    column_index = 0
+                    for column_name in grid_info['columnNames']:
+                        if grid_info['grid'][row_index][column_index] is not None:
+                            check_name_index = 0
+                            for check in grid_info['grid'][row_index][column_index]:
+                                title = '%s %s %s %s' % (grid_name, row_name, column_name, check_name[check_name_index])
+                                log.info('found %s' % title)
+                                rm.append(self.objectMap({
+                                     'id' : self.prepId('%s' % title),
+                                     'title' : title,
+                                     'grid' : grid_name,
+                                     'row' : row_name,
+                                     'column' : column_name,
+                                     'check' : check_name[check_name_index],
+                                     'check_uri' : check['uri']}))
+                                check_name_index = check_name_index + 1
+                        column_index = column_index + 1
+                    row_index = row_index + 1
         return(rm)
+
 
     def process(self, device, results, log):
         return results

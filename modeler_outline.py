@@ -35,10 +35,11 @@ for dashboard in dashboards['dashboards']:
                 if grid_info['grid'][row_index][column_index] is not None:
                     check_name_index = 0
                     for check in grid_info['grid'][row_index][column_index]:
-                        print '%s %s %s\n   %s' % (row_name,
-                                                   column_name,
-                                                   check_name[check_name_index],
-                                                   check['uri'])
+                        print 'grid:%s row:%s column:%s check:%s\n  %s\n' % (grid_name,
+                                                      row_name,
+                                                      column_name,
+                                                      check_name[check_name_index],
+                                                      check['uri'])
                         check_name_index = check_name_index + 1
                 column_index = column_index + 1
             row_index = row_index + 1
