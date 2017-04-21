@@ -18,7 +18,7 @@ from pprint import pformat
 
 
 class MaddashCell(PythonPlugin):
-    relname = 'maddashCell'
+    relname = 'maddashCells'
     modname = "ZenPacks.community.Maddash.MaddashCell"
 
     def collect(self, device, log):
