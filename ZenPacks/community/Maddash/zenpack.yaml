@@ -41,6 +41,8 @@ device_classes:
       zSnmpMonitorIgnore: true
       zCollectorPlugins:
         - Maddash.MaddashCell
+      zDeviceTemplates:
+        - Maddash
     templates:
       Maddash:
         description: Maddash device monitoring template

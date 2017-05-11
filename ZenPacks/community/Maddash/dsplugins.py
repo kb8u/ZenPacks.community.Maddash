@@ -41,7 +41,7 @@ class Alerts(PythonDataSourcePlugin):
             grids_response = yield getPage('http://' + config.id + '/maddash/grids')
             grids = json.loads(grids_response)
             for grid in grids['grids']:
-                grid_response = yield getPage('http://' + config.id + grid['uri'])
+                grid_response = yield getPage('http://' + config.id + str(grid['uri']))
                 grid_data = json.loads(grid_response)
                 LOG.debug('retrieved grid data: %s' % pprint.pformat(grid_data))
 #                rval.append(grid_data)

@@ -16,6 +16,7 @@ ZenPacks/community/__init__.pyc
 ZenPacks/community/Maddash/__init__.py
 ZenPacks/community/Maddash/__init__.pyc
 ZenPacks/community/Maddash/dsplugins.py
+ZenPacks/community/Maddash/dsplugins.pyc
 ZenPacks/community/Maddash/zenpack.yaml
 ZenPacks/community/Maddash/datasources/__init__.py
 ZenPacks/community/Maddash/lib/__init__.py
