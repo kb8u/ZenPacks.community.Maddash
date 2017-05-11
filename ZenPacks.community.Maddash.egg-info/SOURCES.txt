@@ -15,6 +15,7 @@ ZenPacks/community/__init__.py
 ZenPacks/community/__init__.pyc
 ZenPacks/community/Maddash/__init__.py
 ZenPacks/community/Maddash/__init__.pyc
+ZenPacks/community/Maddash/dsplugins.py
 ZenPacks/community/Maddash/zenpack.yaml
 ZenPacks/community/Maddash/datasources/__init__.py
 ZenPacks/community/Maddash/lib/__init__.py
@@ -28,6 +29,7 @@ ZenPacks/community/Maddash/modeler/plugins/Maddash/MaddashCell.py
 ZenPacks/community/Maddash/modeler/plugins/Maddash/MaddashCell.pyc
 ZenPacks/community/Maddash/modeler/plugins/Maddash/__init__.py
 ZenPacks/community/Maddash/modeler/plugins/Maddash/__init__.pyc
+ZenPacks/community/Maddash/objects/objects.xml
 ZenPacks/community/Maddash/parsers/__init__.py
 ZenPacks/community/Maddash/resources/__init__.py
 ZenPacks/community/Maddash/tests/__init__.py

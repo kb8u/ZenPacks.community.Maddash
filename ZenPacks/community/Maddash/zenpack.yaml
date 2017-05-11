@@ -12,18 +12,23 @@ classes:
         properties:
             grid:
                 label: Grid
+                grid_display: False
 
             row:
                 label: Row
+                grid_display: False
  
             column:
                 label: Column
+                grid_display: False
 
             check:
                 label: Check
+                grid_display: False
 
             check_uri:
                 label: Maddash Check URI
+                grid_display: False
 
 class_relationships:
   - MaddashDevice 1:MC MaddashCell
@@ -36,3 +41,13 @@ device_classes:
       zSnmpMonitorIgnore: true
       zCollectorPlugins:
         - Maddash.MaddashCell
+    templates:
+      Maddash:
+        description: Maddash device monitoring template
+        targetPythonClass: ZenPacks.community.Maddash.MaddashDevice
+
+        datasources:
+          alerts:
+            type: Python
+            plugin_classname: ZenPacks.community.Maddash.dsplugins.Alerts
+            cycletime: "300"

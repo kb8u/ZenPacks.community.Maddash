@@ -21,6 +21,8 @@ class MaddashCell(PythonPlugin):
     relname = 'maddashCells'
     modname = "ZenPacks.community.Maddash.MaddashCell"
 
+    deviceProperties = PythonPlugin.deviceProperties
+
     def collect(self, device, log):
         log.info('Starting to collect dashboard data from Maddash API')
 
