@@ -53,3 +53,6 @@ device_classes:
             type: Python
             plugin_classname: ZenPacks.community.Maddash.dsplugins.Alerts
             cycletime: "300"
+
+            datapoints:
+              measurement: GAUGE
