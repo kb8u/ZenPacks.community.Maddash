@@ -14,7 +14,7 @@ from Products.ZenUtils.Utils import prepId
 LOG = logging.getLogger('zen.Maddash')
 
 
-class Alerts(PythonDataSourcePlugin):
+class QueryMaddash(PythonDataSourcePlugin):
 
     """Weather Underground alerts data source plugin."""
 

@@ -49,9 +49,9 @@ device_classes:
         targetPythonClass: ZenPacks.community.Maddash.MaddashDevice
 
         datasources:
-          alerts:
+          query:
             type: Python
-            plugin_classname: ZenPacks.community.Maddash.dsplugins.Alerts
+            plugin_classname: ZenPacks.community.Maddash.dsplugins.QueryMaddash
             cycletime: "300"
 
             datapoints:
