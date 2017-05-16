@@ -30,6 +30,8 @@ classes:
                 label: Maddash Check URI
                 grid_display: False
 
+        monitoring_templates: [ Maddash ]
+
 class_relationships:
   - MaddashDevice 1:MC MaddashCell
 
@@ -41,12 +43,10 @@ device_classes:
       zSnmpMonitorIgnore: true
       zCollectorPlugins:
         - Maddash.MaddashCell
-      zDeviceTemplates:
-        - Maddash
     templates:
       Maddash:
-        description: Maddash device monitoring template
-        targetPythonClass: ZenPacks.community.Maddash.MaddashDevice
+        description: Maddash component monitoring template
+        targetPythonClass: ZenPacks.community.Maddash.MaddashCell
 
         datasources:
           query:
