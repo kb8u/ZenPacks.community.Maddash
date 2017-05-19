@@ -10,11 +10,13 @@
 
 __doc__="""MaddashDeviceModeler gets the dashboards available from a system running the Maddash JSON API."""
 
-from Products.DataCollector.plugins.CollectorPlugin import PythonPlugin
+import re
 import json
 import urllib
 import urllib2
 from pprint import pformat
+
+from Products.DataCollector.plugins.CollectorPlugin import PythonPlugin
 
 
 class MaddashCell(PythonPlugin):
@@ -58,14 +60,20 @@ class MaddashCell(PythonPlugin):
                             for check in grid_info['grid'][row_index][column_index]:
                                 title = '%s %s %s %s' % (grid_name, row_name, column_name, check_name[check_name_index])
                                 log.info('found %s' % title)
+                                check_type = 'unknown'
+                                check_direction = 'forward'
+                                m = re.search(r'^(Throughput|Packet Loss|Latency)', grid_name, re.IGNORECASE)
+                                if m:
+                                    check_type = m.group(1).lower()
+                                m = re.search(r' Reverse$', check_name[check_name_index], re.IGNORECASE)
+                                if m:
+                                    check_direction = 'reverse'
                                 rm.append(self.objectMap({
                                      'id' : self.prepId('%s' % title),
                                      'title' : title,
-                                     'grid' : grid_name,
-                                     'row' : row_name,
-                                     'column' : column_name,
-                                     'check' : check_name[check_name_index],
-                                     'check_uri' : check['uri']}))
+                                     'check_type' : check_type,
+                                     'check_direction' : check_direction,
+                                     'check_uri' : 'http://'+ device.manageIp +check['uri']}))
                                 check_name_index = check_name_index + 1
                         column_index = column_index + 1
                     row_index = row_index + 1

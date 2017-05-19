@@ -10,25 +10,17 @@ classes:
         label: Maddash Cell
 
         properties:
-            grid:
-                label: Grid
+            check_type:
+                label: Check Type
                 grid_display: False
 
-            row:
-                label: Row
-                grid_display: False
- 
-            column:
-                label: Column
-                grid_display: False
-
-            check:
-                label: Check
+            check_direction:
+                label: Check Direction
                 grid_display: False
 
             check_uri:
                 label: Maddash Check URI
-                grid_display: False
+                grid_display: True
 
         monitoring_templates: [ Maddash ]
 
