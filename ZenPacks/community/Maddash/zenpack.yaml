@@ -22,7 +22,11 @@ classes:
                 label: Maddash Check URI
                 grid_display: True
 
-        monitoring_templates: [ Maddash ]
+        # only one of these is used, see MaddashCell.py getRRDTemplates()
+        monitoring_templates:
+          - throughput
+          - packet_loss
+          - latency
 
 class_relationships:
   - MaddashDevice 1:MC MaddashCell
@@ -35,16 +39,37 @@ device_classes:
       zSnmpMonitorIgnore: true
       zCollectorPlugins:
         - Maddash.MaddashCell
-    templates:
-      Maddash:
-        description: Maddash component monitoring template
-        targetPythonClass: ZenPacks.community.Maddash.MaddashCell
 
+    templates:
+      throughput:
+        description: Maddash throughput monitoring template
+        targetPythonClass: ZenPacks.community.Maddash.MaddashCell
         datasources:
           query:
             type: Python
             plugin_classname: ZenPacks.community.Maddash.dsplugins.QueryMaddash
             cycletime: "300"
+            datapoints:
+              measurement: GAUGE
 
+      packet_loss:
+        description: Maddash packet loss monitoring template
+        targetPythonClass: ZenPacks.community.Maddash.MaddashCell
+        datasources:
+          query:
+            type: Python
+            plugin_classname: ZenPacks.community.Maddash.dsplugins.QueryMaddash
+            cycletime: "300"
+            datapoints:
+              measurement: GAUGE
+
+      latency:
+        description: Maddash latency monitoring template
+        targetPythonClass: ZenPacks.community.Maddash.MaddashCell
+        datasources:
+          query:
+            type: Python
+            plugin_classname: ZenPacks.community.Maddash.dsplugins.QueryMaddash
+            cycletime: "300"
             datapoints:
               measurement: GAUGE
