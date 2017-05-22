@@ -51,6 +51,15 @@ device_classes:
             cycletime: "300"
             datapoints:
               measurement: GAUGE
+        graphs:
+          Throughput:
+            units: bits/s
+            miny: 0
+            graphpoints:
+              Throughput:
+                dpName: query_measurement
+                cFunc: MIN
+
 
       packet_loss:
         description: Maddash packet loss monitoring template
@@ -62,6 +71,14 @@ device_classes:
             cycletime: "300"
             datapoints:
               measurement: GAUGE
+        graphs:
+          Loss:
+            units: percent
+            miny: 0
+            graphpoints:
+              Loss:
+                dpName: query_measurement
+                cFunc: MAX
 
       latency:
         description: Maddash latency monitoring template
@@ -73,3 +90,11 @@ device_classes:
             cycletime: "300"
             datapoints:
               measurement: GAUGE
+        graphs:
+          Latency:
+            units: seconds
+            miny: 0
+            graphpoints:
+              Latency:
+                dpName: query_measurement
+                cFunc: MAX
