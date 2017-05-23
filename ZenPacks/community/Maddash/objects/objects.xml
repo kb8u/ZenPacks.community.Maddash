@@ -1,3 +1,16 @@
 <?xml version="1.0"?>
 <objects>
+<!-- ('', 'zport', 'dmd', 'Events', 'Net', 'Performance') -->
+<object id='/zport/dmd/Events/Net/Performance' module='Products.ZenEvents.EventClass' class='EventClass'>
+<tomanycont id='instances'>
+<object id='Maddash' module='Products.ZenEvents.EventClassInst' class='EventClassInst'>
+<property type="string" id="eventClassKey" mode="w" >
+Maddash
+</property>
+<property type="int" id="sequence" mode="w" >
+7
+</property>
+</object>
+</tomanycont>
+</object>
 </objects>

@@ -13,6 +13,7 @@ ZenPacks.community.Maddash.egg-info/test_info.txt
 ZenPacks.community.Maddash.egg-info/top_level.txt
 ZenPacks/community/__init__.py
 ZenPacks/community/__init__.pyc
+ZenPacks/community/Maddash/LICENSE.txt
 ZenPacks/community/Maddash/MaddashCell.py
 ZenPacks/community/Maddash/MaddashCell.pyc
 ZenPacks/community/Maddash/__init__.py
