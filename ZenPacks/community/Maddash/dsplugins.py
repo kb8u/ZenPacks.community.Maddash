@@ -15,8 +15,7 @@ LOG = logging.getLogger('zen.Maddash')
 
 
 class QueryMaddash(PythonDataSourcePlugin):
-
-    """Weather Underground alerts data source plugin."""
+    """Collect performance data and events  from Maddash API"""
 
     @classmethod
     def config_key(cls, datasource, context):
@@ -26,10 +25,11 @@ class QueryMaddash(PythonDataSourcePlugin):
             'maddash-alerts',
             )
 
-    # maddash api has last data (in a string) and events in grid
+    # maddash api has last data (in a string) and events in a dashboard
     @inlineCallbacks
     def collect(self, config):
         LOG.info('running collect on %s', config.id)
+
         rval = self.new_data()
 
         try:
@@ -48,6 +48,7 @@ class QueryMaddash(PythonDataSourcePlugin):
                     grid_info = json.loads(res)
                     #LOG.debug('\n\ngrid %s:\n%s' % (grid_name,pformat(grid_info))) 
 
+                    # process performance data from API
                     check_name = []
                     for cn in grid_info['checkNames']:
                         check_name.append(cn)
@@ -93,9 +94,46 @@ class QueryMaddash(PythonDataSourcePlugin):
                                         rval['values'][component_id]['measurement'] = (quantity,time) 
                             column_index = column_index + 1
                         row_index = row_index + 1
+                    
+                    # process event data from API
+                    event_type = grid_info['name']
+                    report = grid_info['report']
+                    for site_name in report['sites']:
+                        site = report['sites'][site_name]
+                        if 'problems' in site:
+                            for problem in site['problems']:
+                                LOG.info('found problem, severity: %d' % problem['severity'])
+                                event = {
+                                  'device': config.id,
+                                  'severity' : self.__API_severity(problem['severity']),
+                                  'eventKey' : '%s %s' % (event_type, site_name),
+                                  'eventClassKey' : 'Maddash',
+                                  'summary' : '%s %s: %s' % (site_name, event_type, problem['name']),
+                                  'message' : '%s %s: %s' % (site_name, event_type, problem['name'])
+                                }
+                                rval['events'].append(event)
+                        # clear event if there is no 'problems' key, an OK count, and no WARN or CRITICAL in stats
+                        else:
+                            if site['stats'][0] > 0 and site['stats'][1] == 0 and site['stats'][2] == 0:
+                                #LOG.debug('clear event for %s %s' % (event_type, site_name))
+                                rval['events'].append({
+                                  'device': config.id,
+                                  'severity' : 0,
+                                  'eventKey' : '%s %s' % (event_type, site_name),
+                                  'eventClassKey' : 'Maddash',
+                                  'summary' : 'no problems',
+                                  'message' : 'no problems'
+                                })
+
         except Exception:
             LOG.exception('failed to get data for %s' % config.id)
 
         #LOG.debug('rval:\n%s' % pformat(rval))
         returnValue(rval)
 
+    def __API_severity(self, severity):
+        if severity == 2:
+            return 5
+        if severity == 1:
+            return 4
+        return 0
