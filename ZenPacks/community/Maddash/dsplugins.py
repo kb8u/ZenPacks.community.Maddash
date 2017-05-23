@@ -20,7 +20,6 @@ class QueryMaddash(PythonDataSourcePlugin):
 
     @classmethod
     def config_key(cls, datasource, context):
-        LOG.debug('################### running config_key')
         return (
             context.device().id,
             datasource.getCycleTime(context),
@@ -30,7 +29,7 @@ class QueryMaddash(PythonDataSourcePlugin):
     # maddash api has last data (in a string) and events in grid
     @inlineCallbacks
     def collect(self, config):
-        LOG.debug('running collect on %s', config.id)
+        LOG.info('running collect on %s', config.id)
         rval = self.new_data()
 
         try:
@@ -64,12 +63,14 @@ class QueryMaddash(PythonDataSourcePlugin):
                                     quantity = 'NaN' # maddash measurement value
                                     title = '%s %s %s %s' % (grid_name, row_name, column_name, check_name[check_name_index])
                                     LOG.debug('found %s' % title)
-                                    component_id = prepId('%s' % title)
+                                    component_id = prepId(title)
                                     check_uri = str(check['uri'])
+                                    # alternate measurement direction on check_name_index
+                                    direction_index = check_name_index & 1
                                     check_name_index = check_name_index + 1
-                                    # alternate measurement direction on column_index
-                                    direction_index = column_index & 1
-                                    message_match = re.search('\s+(\d+\.?\d+)(.*)',str(grid_info['grid'][row_index][column_index][direction_index]['message']))
+                                    message_match = re.search(
+                                      '\s+(\d+\.?\d+)(.*)',
+                                      str(grid_info['grid'][row_index][column_index][direction_index]['message']))
                                     if message_match:
                                         time = int(grid_info['grid'][row_index][column_index][direction_index]['prevCheckTime'])
                                         quantity = float(message_match.group(1))
@@ -87,14 +88,14 @@ class QueryMaddash(PythonDataSourcePlugin):
                                                 pass
                                         # another units_match for latency here
                                         # TODO: code latency munging
-                                    LOG.debug('saw quantity % f' % quantity)
+                                        LOG.debug('saw quantity % f' % quantity)
                                     
-                                    rval['values'][component_id]['measurement'] = (quantity,time) 
+                                        rval['values'][component_id]['measurement'] = (quantity,time) 
                             column_index = column_index + 1
                         row_index = row_index + 1
         except Exception:
             LOG.exception('failed to get data for %s' % config.id)
 
-        LOG.debug('rval:\n%s' % pformat(rval))
+        #LOG.debug('rval:\n%s' % pformat(rval))
         returnValue(rval)
 

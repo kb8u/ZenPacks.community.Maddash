@@ -73,7 +73,7 @@ device_classes:
               measurement: GAUGE
         graphs:
           Loss:
-            units: percent
+            units: loss % (maybe milli)
             miny: 0
             graphpoints:
               Loss:

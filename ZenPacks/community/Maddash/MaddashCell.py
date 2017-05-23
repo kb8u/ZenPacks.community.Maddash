@@ -12,3 +12,4 @@ class MaddashCell(schema.MaddashCell):
                 return [ template ]
             if self.check_type == 'latency' and template.id == 'latency':
                 return [ template ]
+        return []
