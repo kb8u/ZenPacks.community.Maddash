@@ -124,6 +124,25 @@ class QueryMaddash(PythonDataSourcePlugin):
                                   'summary' : 'no problems',
                                   'message' : 'no problems'
                                 })
+                                continue
+                            if site['stats'][1]:
+                                rval['events'].append({
+                                  'device': config.id,
+                                  'severity' : 4,
+                                  'eventKey' : '%s %s' % (event_type, site_name),
+                                  'eventClassKey' : 'Maddash',
+                                  'summary' : 'One or more sites has %s' % grid_info['statusLabels'][1],
+                                  'message' : 'One or more sites has %s' % grid_info['statusLabels'][1]
+                                })
+                            if site['stats'][2]:
+                                rval['events'].append({
+                                  'device': config.id,
+                                  'severity' : 5,
+                                  'eventKey' : '%s %s' % (event_type, site_name),
+                                  'eventClassKey' : 'Maddash',
+                                  'summary' : 'One or more sites has %s' % grid_info['statusLabels'][2],
+                                  'message' : 'One or more sites has %s' % grid_info['statusLabels'][2]
+                                })
 
         except Exception:
             LOG.exception('failed to get data for %s' % config.id)
