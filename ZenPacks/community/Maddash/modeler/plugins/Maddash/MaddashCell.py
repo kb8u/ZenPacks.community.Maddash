@@ -73,7 +73,7 @@ class MaddashCell(PythonPlugin):
                                      'title' : title,
                                      'check_type' : check_type,
                                      'check_direction' : check_direction,
-                                     'check_uri' : 'http://'+ device.manageIp +check['uri']}))
+                                     'check_uri' : 'http://%s/maddash-webui/details.cgi?uri=%s' % (device.manageIp, check['uri'])}))
                                 check_name_index = check_name_index + 1
                         column_index = column_index + 1
                     row_index = row_index + 1

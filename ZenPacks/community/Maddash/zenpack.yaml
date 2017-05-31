@@ -19,8 +19,10 @@ classes:
                 grid_display: False
 
             check_uri:
-                label: Maddash Check URI
+                label: More Data
+                label_width: 100
                 grid_display: True
+                renderer: function(value, metaData, record, rowIndex, colIndex, store) { return '<a href="'.concat(value).concat('">Perfsonar link</a>') }
 
         # only one of these is used, see MaddashCell.py getRRDTemplates()
         monitoring_templates:
