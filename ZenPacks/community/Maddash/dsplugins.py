@@ -15,7 +15,7 @@ LOG = logging.getLogger('zen.Maddash')
 
 
 class QueryMaddash(PythonDataSourcePlugin):
-    """Collect performance data and events  from Maddash API"""
+    """Collect performance data and events from Maddash API"""
 
     @classmethod
     def config_key(cls, datasource, context):
@@ -105,6 +105,7 @@ class QueryMaddash(PythonDataSourcePlugin):
                                 LOG.info('found problem, severity: %d' % problem['severity'])
                                 event = {
                                   'device': config.id,
+                                  'component' : '%s %s' % (event_type, site_name),
                                   'severity' : self.__API_severity(problem['severity']),
                                   'eventKey' : '%s %s' % (event_type, site_name),
                                   'eventClassKey' : 'Maddash',
@@ -118,6 +119,7 @@ class QueryMaddash(PythonDataSourcePlugin):
                                 #LOG.debug('clear event for %s %s' % (event_type, site_name))
                                 rval['events'].append({
                                   'device': config.id,
+                                  'component' : '%s %s' % (event_type, site_name),
                                   'severity' : 0,
                                   'eventKey' : '%s %s' % (event_type, site_name),
                                   'eventClassKey' : 'Maddash',
@@ -128,6 +130,7 @@ class QueryMaddash(PythonDataSourcePlugin):
                             if site['stats'][1]:
                                 rval['events'].append({
                                   'device': config.id,
+                                  'component' : '%s %s' % (event_type, site_name),
                                   'severity' : 4,
                                   'eventKey' : '%s %s' % (event_type, site_name),
                                   'eventClassKey' : 'Maddash',
@@ -137,6 +140,7 @@ class QueryMaddash(PythonDataSourcePlugin):
                             if site['stats'][2]:
                                 rval['events'].append({
                                   'device': config.id,
+                                  'component' : '%s %s' % (event_type, site_name),
                                   'severity' : 5,
                                   'eventKey' : '%s %s' % (event_type, site_name),
                                   'eventClassKey' : 'Maddash',
